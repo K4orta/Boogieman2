@@ -11,8 +11,8 @@ package org.lemonparty
 		public var curSel:uint=0;
 		public var invSize:int = 6;
 		protected var _logic:PlayState;
-		protected var _owner:Unit;
-		public function Inventory(Owner:Unit) {
+		protected var _owner:Hero;
+		public function Inventory(Owner:Hero) {
 			_owner = Owner;
 			_logic = K4G.logic;
 		}

@@ -1,7 +1,9 @@
 package org.lemonparty {
 	import flash.geom.ColorTransform;
 	import org.flixel.FlxCamera;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxTilemap;
+	import org.flixel.system.FlxTile;
 	import org.flixel.system.FlxTilemapBuffer;
 	
 	/**
@@ -11,6 +13,7 @@ package org.lemonparty {
 	public class ColorTilemap extends FlxTilemap{
 		protected var _map:K4Map;
 		public var colTrans:ColorTransform;
+		
 		public function ColorTilemap() {
 			super();
 			colTrans = new ColorTransform();
@@ -37,6 +40,21 @@ package org.lemonparty {
 			super.drawTilemap(Buffer, Camera);
 			Buffer.pixels.colorTransform(Buffer.pixels.rect, colTrans);
 		}
+		
+		public function simplePath(Arg:Array):void {
+			try{
+			simplifyPath(Arg);
+			}catch (er:Error) {
+				trace("Hi Hi");
+			}
+			
+		}
+		
+		public function blocked(Point:FlxPoint):Boolean {
+			return _tileObjects[_data[uint(uint(Point.y/_tileHeight)*widthInTiles + Point.x/_tileWidth)]].allowCollisions>0
+		}
+		
+		
 	}
 
 }

@@ -2,9 +2,14 @@ package org.lemonparty {
 	import flash.events.Event;
 	import flash.geom.ColorTransform;
 	import org.flixel.FlxG;
+	import org.flixel.FlxPoint;
 	import org.flixel.FlxGroup;
 	import flash.utils.getDefinitionByName;
 	import org.lemonparty.units.*;
+	import org.lemonparty.resources.*;
+	import org.lemonparty.tiles.*;
+	import org.lemonparty.K4Tile;
+	import org.flixel.FlxTilemap;
 	/**
 	 * ...
 	 * @author Erik Sy Wong
@@ -28,11 +33,13 @@ package org.lemonparty {
 		public var fades:Vector.<ColorTransform>=new Vector.<ColorTransform>();
 		public var mapString:String;
 		
+		protected var tileObjects:Vector.<Vector.<K4Tile>> = new Vector.<Vector.<K4Tile>>();
 		
 		// __________________________________________ CONSTRUCTOR
 		public function K4Map(){
 			colTrans = new ColorTransform();
 			layerMain = new ColorTilemap();
+			backLayer = new ColorTilemap();
 			K4G.gameMap = layerMain;
 			logic = K4G.logic;
 			layerMain.immovable = true;
@@ -58,9 +65,54 @@ package org.lemonparty {
 		
 		// __________________________________________ METHODS
 		
+		
 		public function blank():void {
 			Wizard;
+			Ghoul;
 			Hero;
+			Cover;
+			Dirt;
+			Npc;
+			RockPile;
+		}
+		
+		public function dropToGround(Arg:FlxPoint):FlxPoint {
+			var sy:int = Arg.y;
+			var sx:int = Arg.x;
+			if (layerMain.blocked(Arg)) {
+				return Arg;
+			}else {
+				var i:int = 0;
+				while (!layerMain.blocked(new FlxPoint(sx,sy+(i*16)))&&i<100) {
+					++i;
+				}
+				return new FlxPoint(Arg.x,Arg.y+((i-1)*16));
+			}
+			return Arg;
+		}
+		
+		public function hurtTile(X:int,Y:int,Damage:Number):void {
+			tileObjects[Y][X].hurt(Damage);
+		}
+		
+		public function loadMap(MapData:String, MapBackground:String, TileGraphic:Class, BackGfx:Class, TileWidth:uint = 0, TileHeight:uint = 0, AutoTile:uint = FlxTilemap.OFF, StartingIndex:uint = 0, DrawIndex:uint = 1, CollideIndex:uint = 1):void {
+			layerMain.loadMap(MapData, TileGraphic, TileWidth, TileHeight, AutoTile, StartingIndex, DrawIndex, CollideIndex);
+			backLayer.loadMap(MapBackground, BackGfx);
+			for (var i:uint = 0; i < layerMain.heightInTiles;++i ) {
+				tileObjects[i] = new Vector.<K4Tile>();
+				for (var j:uint = 0; j < layerMain.widthInTiles;++j ) {	
+					var gto:uint = layerMain.getTile(j, i);
+					switch(gto){
+						case 1:
+							tileObjects[i][j] = new Dirt(j,i,gto);
+							break;
+						default:
+							tileObjects[i][j] = new K4Tile(j,i,gto);
+							break;
+					}
+					
+				}
+			}
 		}
 		
 		public function loadSprites(Data:String):void {
@@ -101,6 +153,8 @@ package org.lemonparty {
 					return logic.player;
 				case "miscObjects":
 					return logic.miscObjects;
+				case "cover":
+					return logic.cover;
 				//case "searchables":
 					//return logic.searchables;
 				default:

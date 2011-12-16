@@ -1,5 +1,6 @@
 package org.lemonparty 
 {
+	import adobe.utils.CustomActions;
 	/**
 	 * ...
 	 * @author Erik Sy Wong
@@ -13,10 +14,13 @@ package org.lemonparty
 		public var 		numItems:	int			= 1; // used for inventory stuff
 		public var		maxStack:	int 		= 1; // another inv variable
 		public var 		cameo:		Class;
-
+		public var 		mouseOnOb:	Boolean		= false;
+		
+		public var		coolDowns:Vector.<Object>;
+		
 		public function GameObject(X:Number = 0, Y:Number = 0, SimpleGraphic:Class = null) {
 			super(X, Y, SimpleGraphic);
-			
+			acceleration.y = K4G.gravity;
 		}
 		
 		public function onPickup():void {
@@ -72,6 +76,18 @@ package org.lemonparty
 		}
 		
 		public function forceDrop():void {
+			
+		}
+
+		public function click():void {
+			
+		}
+		
+		public function mouseOver():void {
+			
+		}
+		
+		public function mouseOut():void {
 			
 		}
 		

@@ -9,7 +9,7 @@ package org.lemonparty
 	{
 		public static var map:K4Map;
 		public static var logic:PlayState;
-		public static var gravity:Number = 500;
+		public static var gravity:Number = 1200;
 		public static var calendar:TimeKeeper;
 		public static var lights:FlxGroup;
 		public static var gameMap:ColorTilemap;

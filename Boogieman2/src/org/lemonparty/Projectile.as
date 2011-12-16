@@ -18,14 +18,21 @@ package org.lemonparty
 		public var speed:Number;
 		public var life:uint = 0;
 		
+		public var minDmg:Number = 3;
+		public var minRange:Number = 90;
+		public var maxRange:Number = 400;
+		public var maxDmg:Number = 5;
+		public var curLife:Number;
+		
 		public var hits:Vector.<FlxObject>=new Vector.<FlxObject>();
 		public var hitLocs:Vector.<FlxPoint>=new Vector.<FlxPoint>();
 		protected var _tracer:FlxSprite;
+		[Embed(source = "data/tracer2.png")] private var ImgShot:Class;
 		
-		public function Projectile(Ori:FlxPoint, Normal:FlxPoint) {
+		public function Projectile(Ori:FlxPoint, Normal:FlxPoint, Speed:Number=2400) {
 			super();
 			ori=Ori;
-			speed = 2400;
+			speed = Speed;
 			normal = Normal;
 			slope.make(Normal.x * speed * FlxG.elapsed, Normal.y * speed * FlxG.elapsed);
 			
@@ -37,7 +44,7 @@ package org.lemonparty
 			
 			velocity.x = normal.x * speed;
 			velocity.y = normal.y * speed;
-			
+			//trace(velocity.x);
 			width = FlxU.max(FlxU.abs(x - FlxU.max(ori.x, ori.x+slope.x)),2);
 			height = FlxU.max(FlxU.abs(y - FlxU.max(ori.y, ori.y + slope.y)), 2);
 			moves = false;
@@ -56,7 +63,7 @@ package org.lemonparty
 				_tracer.y = tail.y;
 			}else{
 				if (life>0) {
-					addTracer();
+					addTracer(ImgShot);
 				}
 			}
 			++life;

@@ -38,11 +38,11 @@ package org.lemonparty
 		public function ray(RayS:FlxPoint, RayE:FlxPoint, Normal:FlxPoint):FlxPoint {
 			var t1p1:FlxPoint, t1p2:FlxPoint, t2p1:FlxPoint, t2p2:FlxPoint;
 			if (RayS.x < x) {
-				t1p1 = new FlxPoint(x, y-2);
-				t1p2 = new FlxPoint(x, y + height+2);
+				t1p1 = new FlxPoint(x, y);
+				t1p2 = new FlxPoint(x, y + height);
 			}else { 
-				t1p1 = new FlxPoint(x+width, y-2);
-				t1p2 = new FlxPoint(x+width, y+height+2);
+				t1p1 = new FlxPoint(x+width, y);
+				t1p2 = new FlxPoint(x+width, y+height);
 			}
 			
 			if (RayS.y <  y) {

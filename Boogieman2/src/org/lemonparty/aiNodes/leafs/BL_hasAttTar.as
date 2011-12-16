@@ -18,7 +18,7 @@ package org.lemonparty.aiNodes.leafs
 		
 		override public function run():uint {
 			if (parent.attTar) {
-				K4G.logic.emote(Emote.EXCLAMATION, 3, parent);
+				//K4G.logic.emote(Emote.EXCLAMATION, 3, parent);
 				return SUCCESS;
 			}else {
 				return FAILURE;

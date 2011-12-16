@@ -7,6 +7,7 @@ package org.lemonparty {
 	import flash.geom.Rectangle;
 	import org.flixel.FlxText;
 	import flash.geom.Point;
+	import org.flixel.FlxG;
 	
 	/**
 	 * ...
@@ -15,9 +16,9 @@ package org.lemonparty {
 	public class K4GUI extends FlxGroup {
 		[Embed(source = "data/invBoxes.png")] private var ImgBoxes:Class;
 		[Embed(source = "data/blockSelect.png")] private var ImgBlockSelect:Class;
-		public var invBoxWidth:int = 18;
+		public var invBoxWidth:int = 26;
 		public var hpBMD:BitmapData = new BitmapData(53, 5, false, 0xFF000000);
-		public var invBMD:BitmapData = new BitmapData(144, 16, true, 0x00000000);
+		public var invBMD:BitmapData = new BitmapData(208, 24, true, 0x00000000);
 		public var ammoBMD:BitmapData = new BitmapData(60, 5, true, 0x00000000);
 		public var boxGfx:BitmapData;
 		public var hpBar:FlxSprite;
@@ -26,14 +27,14 @@ package org.lemonparty {
 		public var invBar:FlxSprite;
 		
 		
-		protected var _invOff:Rectangle = new Rectangle(0, 0, 16, 16) ;
-		protected var _invOn:Rectangle = new Rectangle(16, 0, 16, 16) ;
+		protected var _invOff:Rectangle = new Rectangle(0, 0, 24,24 ) ;
+		protected var _invOn:Rectangle = new Rectangle(24, 0, 24, 24) ;
 		protected var _inv:Inventory;
 		protected var _itemNumbers:Vector.<FlxText> 
 		
 		public function K4GUI(){
 			super();
-			invBar = new FlxSprite(200, 220);
+			invBar = new FlxSprite(460, 440);
 			//x = 152;
 			//y = 220;
 			//add(hpBar);
@@ -41,6 +42,7 @@ package org.lemonparty {
 			boxGfx = (new ImgBoxes).bitmapData;
 			invBar.scrollFactor.x = invBar.scrollFactor.y = 0;
 			add(invBar)
+			
 		}
 		
 		// Inventory
@@ -56,7 +58,7 @@ package org.lemonparty {
 			_inv = He.inv;
 			_itemNumbers = new Vector.<FlxText>();
 			for (var i:int = 0;i<_inv.invSize;++i) {
-				_itemNumbers[i] = new FlxText((i * 18)+119, 6, 32, "0");
+				_itemNumbers[i] = new FlxText((i * invBoxWidth)+119, 6, 32, "0");
 				add(_itemNumbers[i]);
 				_itemNumbers[i].scrollFactor.x = _itemNumbers[i].scrollFactor.y = 0;
 				_itemNumbers[i].visible = false;
@@ -84,13 +86,13 @@ package org.lemonparty {
 			var tg:BitmapData;
 			for (var i:int = 0;i<_inv.invSize;++i ) {
 				if (_inv.curSel == i){
-					invBMD.copyPixels(boxGfx, _invOn, new Point(i * 18, 0));
+					invBMD.copyPixels(boxGfx, _invOn, new Point(i * invBoxWidth, 0));
 				}else{
-					invBMD.copyPixels(boxGfx, _invOff, new Point(i * 18, 0));
+					invBMD.copyPixels(boxGfx, _invOff, new Point(i * invBoxWidth, 0));
 				}
 				if (_inv.slot[i]) {
 					tg = (new _inv.slot[i].cameo).bitmapData;
-					invBMD.copyPixels(tg, _invOff, new Point(i * 18, 0), null, null, true);
+					invBMD.copyPixels(tg, _invOff, new Point(i * invBoxWidth, 0), null, null, true);
 					if (_inv.slot[i].numItems>1) {
 						_itemNumbers[i].visible = true;
 						_itemNumbers[i].text = String(_inv.slot[i].numItems);
